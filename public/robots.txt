@@ -1,0 +1,11 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /thank-you
+
+# Host
+Host: https://aurtostechnologies.in
+
+# Sitemaps
+Sitemap: https://aurtostechnologies.in/sitemap.xml
