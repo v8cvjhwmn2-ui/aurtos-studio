@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Container } from '@/components/shared/Container';
-import { ArrowRight, Home, Search } from 'lucide-react';
+import { ArrowRight, Home } from 'lucide-react';
 
 export default function NotFound() {
   return (

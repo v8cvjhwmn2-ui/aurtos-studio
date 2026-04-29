@@ -3,7 +3,7 @@ import { Container } from '@/components/shared/Container';
 import { Section } from '@/components/shared/Section';
 import { site } from '@/data/site';
 import { generatePageMetadata } from '@/lib/seo';
-import { Shield, Lock, Server, Eye, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Shield, Lock, Server, CheckCircle } from 'lucide-react';
 
 export const metadata: Metadata = generatePageMetadata({
   title: 'Data Security Policy',

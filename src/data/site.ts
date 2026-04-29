@@ -23,4 +23,6 @@ export const site = {
   },
   hours: 'Mo-Sa 09:00-21:00',
   founded: '2024',
+  llpRegistration: process.env.NEXT_PUBLIC_LLP_REGISTRATION || 'ACP-3532',
+  gst: process.env.NEXT_PUBLIC_GST_NUMBER || '09ACKFA3510B1ZX',
 };

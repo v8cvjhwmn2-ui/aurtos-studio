@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 import { Container } from '@/components/shared/Container';
 import { Section } from '@/components/shared/Section';
 import { CTASection } from '@/components/sections/CTASection';
@@ -77,7 +78,7 @@ export default function AboutPage() {
         </div>
         <Container className="relative z-10">
           <nav className="flex items-center gap-2 text-sm text-muted mb-8" aria-label="Breadcrumb">
-            <a href="/" className="hover:text-primary transition-colors">Home</a>
+            <Link href="/" className="hover:text-primary transition-colors">Home</Link>
             <span>/</span>
             <span className="text-foreground">About</span>
           </nav>

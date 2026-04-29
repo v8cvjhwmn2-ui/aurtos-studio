@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 import { Container } from '@/components/shared/Container';
 import { ContactForm } from '@/components/forms/ContactForm';
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
@@ -57,7 +58,7 @@ export default function ContactPage() {
         </div>
         <Container className="relative z-10">
           <nav className="flex items-center gap-2 text-sm text-muted mb-8" aria-label="Breadcrumb">
-            <a href="/" className="hover:text-primary transition-colors">Home</a>
+            <Link href="/" className="hover:text-primary transition-colors">Home</Link>
             <span>/</span>
             <span className="text-foreground">Contact</span>
           </nav>
@@ -149,13 +150,6 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Full Address */}
-              <div className="glass-card p-5">
-                <p className="font-semibold text-foreground text-sm mb-2">📍 Office Address</p>
-                <p className="text-xs text-muted leading-relaxed">
-                  {site.address.street}, {site.address.city}, {site.address.state} - {site.address.postalCode}, {site.address.country}
-                </p>
-              </div>
             </div>
           </div>
         </Container>

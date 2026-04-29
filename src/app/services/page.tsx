@@ -44,7 +44,7 @@ export default function ServicesPage() {
         </div>
         <Container className="relative z-10">
           <nav className="flex items-center gap-2 text-sm text-muted mb-8" aria-label="Breadcrumb">
-            <a href="/" className="hover:text-primary transition-colors">Home</a>
+            <Link href="/" className="hover:text-primary transition-colors">Home</Link>
             <span>/</span>
             <span className="text-foreground">Services</span>
           </nav>
@@ -61,7 +61,7 @@ export default function ServicesPage() {
       <Section>
         <Container>
           <div className="space-y-6">
-            {services.map((service, i) => {
+            {services.map((service) => {
               const Icon = iconMap[service.icon] || Megaphone;
               return (
                 <Link

@@ -32,7 +32,7 @@ export default function PortfolioPage() {
         </div>
         <Container className="relative z-10">
           <nav className="flex items-center gap-2 text-sm text-muted mb-8" aria-label="Breadcrumb">
-            <a href="/" className="hover:text-primary transition-colors">Home</a>
+            <Link href="/" className="hover:text-primary transition-colors">Home</Link>
             <span>/</span>
             <span className="text-foreground">Portfolio</span>
           </nav>

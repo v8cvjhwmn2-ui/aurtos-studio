@@ -1,0 +1,18 @@
+{
+  "recurse": true,
+  "concurrency": 10,
+  "skip": [
+    "^https?://localhost",
+    "^mailto:",
+    "^tel:",
+    "^https?://wa\\.me",
+    "linkedin\\.com",
+    "instagram\\.com",
+    "facebook\\.com",
+    "twitter\\.com"
+  ],
+  "timeout": 10000,
+  "retry": true,
+  "retryErrors": true,
+  "retryErrorsCount": 2
+}

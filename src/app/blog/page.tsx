@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Container } from '@/components/shared/Container';
 import { Section } from '@/components/shared/Section';
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
-import { blogPosts } from '@/data/blog';
+import { getAllPosts } from '@/lib/mdx';
 import { generatePageMetadata } from '@/lib/seo';
 import { Calendar, Clock, ArrowUpRight } from 'lucide-react';
 
@@ -16,6 +16,7 @@ export const metadata: Metadata = generatePageMetadata({
 });
 
 export default function BlogPage() {
+  const blogPosts = getAllPosts();
   return (
     <>
       <BreadcrumbSchema
@@ -32,7 +33,7 @@ export default function BlogPage() {
         </div>
         <Container className="relative z-10">
           <nav className="flex items-center gap-2 text-sm text-muted mb-8" aria-label="Breadcrumb">
-            <a href="/" className="hover:text-primary transition-colors">Home</a>
+            <Link href="/" className="hover:text-primary transition-colors">Home</Link>
             <span>/</span>
             <span className="text-foreground">Blog</span>
           </nav>

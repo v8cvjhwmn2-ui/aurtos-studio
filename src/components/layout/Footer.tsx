@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Container } from '@/components/shared/Container';
+import { BrandLogo } from '@/components/shared/BrandLogo';
 import { site } from '@/data/site';
 import { services } from '@/data/services';
 import { Mail, Phone, MapPin } from 'lucide-react';
@@ -39,14 +40,15 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Column 1: Brand */}
           <div className="space-y-4">
-            <Link href="/" className="inline-block">
-              <span className="gradient-text text-2xl font-extrabold font-[family-name:var(--font-heading)]">
-                Aurtos
-              </span>
-              <span className="text-foreground text-2xl font-bold font-[family-name:var(--font-heading)]">
-                {' '}Studio
-              </span>
-            </Link>
+            <BrandLogo
+              href="/"
+              ariaLabel="Aurtos Studio — home"
+              width={180}
+              height={48}
+              linkClassName="inline-block"
+              imageClassName="h-10 w-auto"
+              textClassName="text-xl"
+            />
             <p className="text-muted text-sm leading-relaxed max-w-xs">
               Full-stack digital agency helping startups, D2C brands, and businesses grow online — from logo to launch to leads.
             </p>
@@ -178,9 +180,18 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="mt-12 pt-6 border-t border-border-custom flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-muted">
-            © {new Date().getFullYear()} {site.legalName}. All rights reserved.
-          </p>
+          <div className="text-xs text-muted text-center sm:text-left space-y-1">
+            <p>
+              © {new Date().getFullYear()} {site.legalName}. All rights reserved.
+            </p>
+            <p className="text-muted/70">
+              LLP Reg.{' '}
+              <span className="font-mono text-foreground/70">{site.llpRegistration}</span>
+              <span className="mx-2 text-border-custom">·</span>
+              GSTIN{' '}
+              <span className="font-mono text-foreground/70">{site.gst}</span>
+            </p>
+          </div>
           <div className="flex flex-wrap items-center gap-4">
             <Link href="/privacy-policy" className="text-xs text-muted hover:text-primary transition-colors">
               Privacy

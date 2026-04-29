@@ -131,12 +131,12 @@ function WhyAurtos() {
           {reasons.map((reason) => (
             <div
               key={reason.title}
-              className="glass-card p-8 text-center hover:border-primary/50 transition-all duration-300 group"
+              className="relative glass-card p-8 text-center hover:border-primary/50 transition-all duration-300 group hover:-translate-y-1"
             >
-              <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                <reason.icon className="w-8 h-8 text-primary" />
+              <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/10 border border-primary/20 flex items-center justify-center group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(99,102,241,0.4)] transition-all duration-300">
+                <reason.icon className="w-8 h-8 text-primary" strokeWidth={2} />
               </div>
-              <h3 className="text-xl font-bold font-[family-name:var(--font-heading)] mb-3">
+              <h3 className="text-xl font-bold font-[family-name:var(--font-heading)] mb-3 group-hover:text-primary transition-colors">
                 {reason.title}
               </h3>
               <p className="text-sm text-muted leading-relaxed">{reason.description}</p>

@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 import { services } from '@/data/services';
-import { blogPosts } from '@/data/blog';
+import { getAllPosts } from '@/lib/mdx';
 import { portfolio } from '@/data/portfolio';
 
 const BASE_URL = 'https://aurtostechnologies.in';
@@ -27,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }));
 
-  const blogPages = blogPosts.map((post) => ({
+  const blogPages = getAllPosts().map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,
     lastModified: new Date(post.date),
     changeFrequency: 'monthly' as const,

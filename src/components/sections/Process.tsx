@@ -85,7 +85,10 @@ export function Process() {
 
               {/* Connector Line */}
               {i < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-px bg-border-custom" />
+                <div className="hidden lg:flex absolute top-12 -right-4 w-8 items-center justify-center z-10">
+                  <div className="w-full h-px bg-gradient-to-r from-primary/60 to-secondary/40" />
+                  <div className="absolute right-0 w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
+                </div>
               )}
             </motion.div>
           ))}

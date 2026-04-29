@@ -4,11 +4,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useState } from 'react';
-import { Send, Loader2, CheckCircle, MessageCircle } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Send, Loader2, CheckCircle, MessageCircle, AlertTriangle } from 'lucide-react';
 import { services } from '@/data/services';
 import { site } from '@/data/site';
 import { trackFormStart, trackFormSubmit } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
+import { TurnstileWidget } from './Turnstile';
 
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -28,8 +30,12 @@ interface ContactFormProps {
 }
 
 export function ContactForm({ preselectedService, className }: ContactFormProps) {
+  const router = useRouter();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
+  const [website, setWebsite] = useState(''); // honeypot
 
   const {
     register,
@@ -50,17 +56,30 @@ export function ContactForm({ preselectedService, className }: ContactFormProps)
   };
 
   const onSubmit = async (data: FormData) => {
-    // In production, this would send to your API
-    console.log('Form submitted:', data);
-    trackFormSubmit('contact');
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsSubmitted(true);
+    setServerError(null);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, turnstileToken, website }),
+      });
+      if (!res.ok) {
+        const err = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(err.error || 'Submission failed');
+      }
+      trackFormSubmit('contact');
+      setIsSubmitted(true);
+      // Fire conversion + redirect to thank-you for tracking
+      setTimeout(() => router.push('/thank-you'), 800);
+    } catch (err) {
+      setServerError(
+        err instanceof Error ? err.message : 'Something went wrong. Please WhatsApp us.',
+      );
+    }
   };
 
   const whatsappUrl = `https://wa.me/${site.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-    "Hi, I'm interested in your services. Can we discuss?"
+    "Hi, I'm interested in your services. Can we discuss?",
   )}`;
 
   if (isSubmitted) {
@@ -97,7 +116,21 @@ export function ContactForm({ preselectedService, className }: ContactFormProps)
       onFocus={onFocus}
       className={cn('glass-card p-6 md:p-8 space-y-5', className)}
       id="contact-form"
+      noValidate
     >
+      {/* Honeypot — hidden from real users, attractive to bots */}
+      <div aria-hidden className="absolute -left-[9999px] top-auto w-px h-px overflow-hidden">
+        <label htmlFor="website">Website</label>
+        <input
+          id="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
+        />
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1.5">
@@ -108,6 +141,7 @@ export function ContactForm({ preselectedService, className }: ContactFormProps)
             type="text"
             placeholder="Your full name"
             className={inputClasses}
+            autoComplete="name"
             {...register('name')}
           />
           {errors.name && (
@@ -123,6 +157,7 @@ export function ContactForm({ preselectedService, className }: ContactFormProps)
             type="email"
             placeholder="you@company.com"
             className={inputClasses}
+            autoComplete="email"
             {...register('email')}
           />
           {errors.email && (
@@ -143,6 +178,7 @@ export function ContactForm({ preselectedService, className }: ContactFormProps)
               type="tel"
               placeholder="9876543210"
               className={cn(inputClasses, 'pl-12')}
+              autoComplete="tel"
               {...register('phone')}
             />
           </div>
@@ -159,6 +195,7 @@ export function ContactForm({ preselectedService, className }: ContactFormProps)
             type="text"
             placeholder="Your company name"
             className={inputClasses}
+            autoComplete="organization"
             {...register('company')}
           />
         </div>
@@ -219,6 +256,15 @@ export function ContactForm({ preselectedService, className }: ContactFormProps)
           <p className="mt-1 text-xs text-red-400">{errors.message.message}</p>
         )}
       </div>
+
+      <TurnstileWidget onToken={setTurnstileToken} onError={() => setTurnstileToken('')} />
+
+      {serverError && (
+        <div className="flex items-start gap-2 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm">
+          <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+          <span>{serverError}</span>
+        </div>
+      )}
 
       <button
         type="submit"

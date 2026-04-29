@@ -4,9 +4,9 @@ import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingWhatsApp } from '@/components/widgets/FloatingWhatsApp';
-import { StickyMobileCTA } from '@/components/layout/StickyMobileCTA';
 import { ScrollToTop } from '@/components/widgets/ScrollToTop';
 import { ExitIntentPopup } from '@/components/widgets/ExitIntentPopup';
+import { CookieConsent } from '@/components/widgets/CookieConsent';
 import { OrganizationSchema, WebSiteSchema } from '@/components/seo/OrganizationSchema';
 import { site } from '@/data/site';
 import Script from 'next/script';
@@ -96,11 +96,9 @@ export default function RootLayout({
       lang="en-IN"
       className={`${inter.variable} ${spaceGrotesk.variable} h-full`}
       dir="ltr"
+      data-scroll-behavior="smooth"
     >
       <head>
-        <link rel="icon" href="/icons/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#0A0A0F" />
         <OrganizationSchema />
@@ -118,15 +116,22 @@ export default function RootLayout({
           />
         )}
 
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-md focus:shadow-lg"
+        >
+          Skip to main content
+        </a>
+
         <Header />
-        <main className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1">{children}</main>
         <Footer />
 
         {/* Widgets */}
         <FloatingWhatsApp />
-        <StickyMobileCTA />
         <ScrollToTop />
         <ExitIntentPopup />
+        <CookieConsent />
 
         {/* GTM NoScript Fallback */}
         {gtmId && (
