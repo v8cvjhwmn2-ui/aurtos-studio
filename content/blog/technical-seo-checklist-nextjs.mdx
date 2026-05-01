@@ -1,0 +1,229 @@
+---
+title: "Technical SEO Checklist for Next.js Websites"
+description: "A practical 2026 technical SEO checklist for Next.js sites covering Core Web Vitals, crawlability, structured data, and performance fixes."
+date: "2026-04-30"
+author: "Aurtos Studio"
+category: "SEO"
+tags: ["technical-seo", "nextjs", "core-web-vitals"]
+keywords: ["technical SEO Next.js", "Next.js SEO checklist", "Core Web Vitals Next.js"]
+cover: "/blog/technical-seo-checklist-nextjs/cover.jpg"
+canonical: "https://aurtostechnologies.in/blog/technical-seo-checklist-nextjs"
+draft: false
+faqs:
+  - question: "What is the most important technical SEO Next.js issue to fix first?"
+    answer: "Start with crawlability. If Google cannot access your pages due to misconfigured robots.txt, blocked JavaScript, or missing sitemaps, nothing else matters. Verify your sitemap is submitted in Search Console and that no critical routes are disallowed."
+  - question: "How do I check Core Web Vitals Next.js performance in production?"
+    answer: "Use PageSpeed Insights with your live URL, not localhost. For field data, check the Core Web Vitals report in Google Search Console after your site has enough traffic. You can also integrate the web-vitals npm package to send real user metrics to your analytics."
+  - question: "What should a complete Next.js SEO checklist include for 2026?"
+    answer: "A thorough Next.js SEO checklist should cover robots.txt and sitemap configuration, canonical tags, Core Web Vitals optimisation (LCP, CLS, INP), image and font loading, structured data implementation, hreflang for multilingual sites, and caching strategies like ISR or edge rendering."
+  - question: "Why does my Next.js site fail Core Web Vitals Next.js benchmarks despite using App Router?"
+    answer: "Common causes include unoptimised third-party scripts, large hero images without priority loading, web fonts causing layout shifts, and client components that block hydration. App Router helps with streaming, but you still need to audit fonts, images, and script loading order."
+---
+
+In March 2026, Google's Search Status Dashboard showed that 41% of new websites failing Core Web Vitals assessments were built on modern JavaScript frameworks — and Next.js sites made up a significant portion of that group. The irony is hard to miss: Next.js ships with image optimisation, automatic code splitting, and server components out of the box. Yet developers still misconfigure robots.txt, ignore font loading strategies, and deploy sites that score 35 on mobile PageSpeed. Technical SEO for Next.js is not about the framework's limitations; it is about what teams forget to configure once the build works locally. This checklist addresses those gaps with specific fixes you can implement this week.
+
+## What Technical SEO Means in 2026 and Why Next.js Sites Still Fail It
+
+Technical SEO covers everything that helps search engines discover, crawl, render, and index your pages efficiently. In 2026, this includes three overlapping concerns: crawlability (can Google find and access your content?), performance (do pages load fast enough for users and ranking algorithms?), and structured understanding (does Google comprehend what your page is about?).
+
+Next.js handles many basics automatically. The App Router generates static HTML where possible, Server Components reduce client JavaScript, and the framework supports metadata exports natively. However, automation creates false confidence. Teams assume that because `next build` succeeds, everything is configured correctly. In reality, a single misconfigured `robots.txt` can block an entire subdirectory. A missing `priority` prop on a hero image can tank LCP by 2 seconds. Structured data that works in development may break when dynamic routes render differently in production.
+
+Indian businesses launching Next.js sites — whether a Mumbai fintech startup or a Jaipur D2C brand — often focus on shipping features first and treat SEO as a post-launch afterthought. By then, Googlebot has already crawled a broken sitemap, indexed pages with missing titles, and recorded poor Core Web Vitals for weeks. Recovering from that baseline takes months. The checklist below prevents that scenario by treating technical SEO as a deployment requirement, not an optimisation layer.
+
+## Crawlability: robots.txt, sitemap.xml, and Canonical Tags
+
+Before Google evaluates your content quality or page speed, it must access your pages. Crawlability errors are silent killers — your site looks fine to users, but search engines see blocked routes or duplicate content.
+
+### robots.txt Configuration
+
+Next.js does not generate a `robots.txt` by default. You need to create one in the `app` directory (for App Router) or `public` folder. A common mistake is blocking `/api/` routes globally, which is correct, but then accidentally blocking `/api/og/` if you use dynamic Open Graph image generation. Another issue: staging environments deployed to Vercel preview URLs sometimes leak into production sitemap references because developers forget environment-specific rules.
+
+Your production `robots.txt` should explicitly allow your main routes, disallow admin panels and API endpoints, and point to your sitemap. For a typical Next.js site:
+
+```
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Sitemap: https://yourdomain.com/sitemap.xml
+```
+
+### Sitemap Generation
+
+Next.js 14+ supports a `sitemap.ts` file in the `app` directory that exports a function returning sitemap entries. This approach lets you dynamically include blog posts, product pages, and category routes. Critical details often missed: set appropriate `lastModified` dates (not just the build date for every page), exclude draft content, and ensure pagination pages are either included or handled via `rel="next/prev"` patterns.
+
+### Canonical Tags
+
+Every page needs a self-referencing canonical tag. Next.js metadata exports support this natively, but dynamic routes require attention. If your blog post exists at both `/blog/my-post` and `/blog/my-post?ref=newsletter`, both URLs should declare the canonical as the clean version. Query parameters for tracking should not create duplicate content issues.
+
+<Callout type="warn">
+After deploying, verify your canonical tags in production using View Source — not browser DevTools, which may show hydrated content. Canonical mismatches between server-rendered HTML and client-side metadata are a common Next.js bug.
+</Callout>
+
+## Core Web Vitals: LCP, CLS, and INP
+
+Google's page experience signals now weight INP (Interaction to Next Paint) instead of FID, making 2026 assessments stricter for interactive applications. Understanding what each metric measures helps you fix the right problems.
+
+### Largest Contentful Paint (LCP)
+
+LCP measures how long until the largest visible element (usually a hero image or headline) renders. The benchmark is under 2.5 seconds. Next.js sites commonly fail LCP because the hero image lacks the `priority` prop, forcing lazy loading by default. Server Components help by reducing JavaScript needed for initial render, but if your largest element depends on a client component that fetches data, you have introduced a waterfall.
+
+Fixes: Add `priority` to above-the-fold images, preload critical fonts, and ensure your largest text block is server-rendered. For dynamic content, consider streaming with Suspense boundaries so static portions render immediately.
+
+### Cumulative Layout Shift (CLS)
+
+CLS tracks unexpected layout movement during page load. The target is under 0.1. Next.js sites fail CLS primarily due to images without explicit dimensions and web fonts that swap after initial render. The `next/image` component solves image dimensions when you provide `width` and `height` or use `fill` with a sized container. Fonts require more care — covered in the font loading section below.
+
+### Interaction to Next Paint (INP)
+
+INP replaced FID in March 2024 and measures responsiveness across all interactions, not just the first. A button click that takes 300ms to show feedback fails the 200ms benchmark. Client components with heavy re-renders or synchronous state updates during interactions cause INP failures. Use `useTransition` for non-urgent updates, debounce expensive operations, and avoid blocking the main thread during event handlers.
+
+## Image Optimisation with next/image
+
+The `next/image` component handles format conversion (WebP/AVIF), responsive sizing, and lazy loading automatically. However, default settings are not optimal for all scenarios.
+
+### Format Selection
+
+Next.js serves AVIF where supported, falling back to WebP. This works well, but verify your CDN or hosting provider supports these formats. Self-hosted Next.js deployments sometimes misconfigure caching headers, causing images to re-process on every request — check that your `Cache-Control` headers include reasonable `max-age` values for `/_next/image` routes.
+
+### Explicit Sizing
+
+Always provide `width` and `height` props for static images, or use the `fill` prop with a parent container that has explicit dimensions. The common mistake is using `fill` without constraining the parent, leading to images that expand unexpectedly or cause CLS.
+
+```jsx
+<div className="relative w-full h-64">
+  <Image src="/hero.jpg" alt="Hero" fill className="object-cover" priority />
+</div>
+```
+
+### Lazy Loading Exceptions
+
+Images below the fold should lazy load (the default). Images in the initial viewport — hero images, logos, author photos in article headers — need `priority={true}`. A Delhi e-commerce site we audited had 11 product images on their homepage, all lazy loading. The hero banner took 4 seconds to appear because the browser did not prioritise it. Adding `priority` to just that one image dropped LCP from 4.1s to 1.8s.
+
+## Font Loading and CLS Prevention
+
+Web fonts cause two CLS problems: Flash of Unstyled Text (FOUT) when the fallback font has different metrics, and Flash of Invisible Text (FOIT) when text is hidden until the font loads.
+
+Next.js includes `next/font`, which automatically handles font loading with zero layout shift when configured correctly. Use it for both Google Fonts and local fonts:
+
+```jsx
+import { Inter } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'], display: 'swap' });
+```
+
+The `display: 'swap'` option shows fallback text immediately, then swaps to the web font. To prevent CLS, the fallback must have similar metrics. `next/font` generates `size-adjust` and `ascent-override` CSS automatically for Google Fonts, matching the fallback closely to the target font.
+
+For local fonts (common with Hindi/Devanagari fonts for Indian bilingual sites), you need to provide the font file and manually test that fallbacks align. Fonts like Noto Sans Devanagari have specific requirements — test both English and Hindi text blocks for layout stability.
+
+<Callout type="tip">
+Use the Layout Shift Debugger in Chrome DevTools (Performance panel → Experience section) to identify exactly which elements shift during font loading. Often it is not the body text but a specific heading with a large size difference.
+</Callout>
+
+## Structured Data in App Router
+
+Structured data helps Google understand your content type and enables rich results — FAQ dropdowns, breadcrumb trails, article metadata in search. Next.js App Router supports JSON-LD injection via the metadata export or a script tag in your layout.
+
+### Article Schema
+
+For blog posts, include `Article` or `BlogPosting` schema with headline, author, datePublished, and image. Place this in your blog post layout:
+
+```jsx
+export default function BlogPost({ post }) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    author: { '@type': 'Person', name: post.author },
+    datePublished: post.date,
+    image: post.cover,
+  };
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      {/* article content */}
+    </>
+  );
+}
+```
+
+### BreadcrumbList
+
+Breadcrumbs improve both UX and search appearance. Generate them dynamically based on the URL path. For a post at `/blog/seo/technical-checklist`, your breadcrumb schema should include Home → Blog → SEO → Technical Checklist.
+
+### FAQPage
+
+If your page includes an FAQ section (like this post), add `FAQPage` schema. Google may display these as expandable answers directly in search results, increasing click-through rates. The schema requires exact text matching between the visible FAQ on the page and the structured data — do not paraphrase.
+
+## Hreflang for Bilingual Sites
+
+Indian businesses often serve content in English and Hindi. Without `hreflang` tags, Google may index only one language version or show the wrong version to users. Hreflang tells Google which language each page targets and links alternate versions.
+
+In Next.js App Router, add `alternates` to your metadata export:
+
+```jsx
+export const metadata = {
+  alternates: {
+    canonical: 'https://yourdomain.com/services',
+    languages: {
+      'en-IN': 'https://yourdomain.com/en/services',
+      'hi-IN': 'https://yourdomain.com/hi/services',
+    },
+  },
+};
+```
+
+Common mistakes: using `hi` instead of `hi-IN` when targeting India specifically, forgetting the x-default value for language selectors, and having hreflang point to pages that 404 or redirect. Audit every hreflang URL monthly — broken links here confuse Google's language understanding for your entire domain.
+
+## Edge Caching and ISR for Dynamic Pages
+
+Next.js offers multiple rendering strategies: static (build-time), ISR (background revalidation), and dynamic (per-request). Technical SEO requires understanding when each applies.
+
+### ISR for Content That Updates
+
+Blog posts, product pages, and category listings that change occasionally benefit from ISR. Set `revalidate` in your page or layout to regenerate pages in the background:
+
+```jsx
+export const revalidate = 3600; // regenerate every hour
+```
+
+This keeps pages fast (served from cache) while ensuring updates propagate within your revalidation window. For a Bangalore SaaS company with a changelog page, ISR means new release notes appear within an hour without manual rebuilds.
+
+### Edge Caching for Personalised Pages
+
+Pages that vary by user (dashboards, account pages) should not be cached publicly, but you can cache the shell and stream personalised content. Use `dynamic = 'force-dynamic'` for truly dynamic routes, but consider whether portions can be static. Middleware at the edge can handle geo-based redirects without sacrificing cache efficiency for the main content.
+
+### Cache Headers for Googlebot
+
+Googlebot respects `Cache-Control` headers. If your dynamic pages return `no-store`, Google crawls them fresh each time — fine for frequently changing content, wasteful for stable pages. Ensure your caching strategy aligns with how often content actually changes.
+
+## Quick Wins: A 30-Minute Audit Checklist
+
+Run through this list today. Each item takes 2-5 minutes to verify:
+
+1. **Robots.txt verification**: Visit `/robots.txt` in production. Confirm it allows critical paths and links to your sitemap.
+
+2. **Sitemap submission**: Check Google Search Console → Sitemaps. Is it submitted? Are there errors? Does the page count match your expectations?
+
+3. **Canonical spot-check**: Open 5 random pages, view source, search for `rel="canonical"`. Each should point to itself (clean URL, no query strings).
+
+4. **Core Web Vitals field data**: In Search Console → Core Web Vitals, check if you have enough data. If not, run PageSpeed Insights on your top 10 landing pages.
+
+5. **Hero image priority**: On your homepage, inspect the main image element. Does it have `fetchpriority="high"` in the rendered HTML? If not, add `priority` prop.
+
+6. **Font loading**: Open DevTools → Network → Font. Are fonts loading from `next/font` (local or Google)? If they load from external URLs directly, you are missing CLS protections.
+
+7. **Structured data validation**: Paste your homepage and one blog post URL into Google's Rich Results Test. Fix any errors before they affect indexing.
+
+8. **Mobile usability**: Search Console → Mobile Usability. Address any flagged issues — text too small, clickable elements too close, viewport not set.
+
+9. **Hreflang verification** (if multilingual): Use a tool like Aleyda Solis's Hreflang Tags Generator to cross-check your implementation. Confirm each language URL returns 200.
+
+10. **HTTPS and security**: Ensure no mixed content warnings. All resources should load over HTTPS.
+
+## Moving From Checklist to Ongoing Practice
+
+Technical SEO is not a one-time task. Google updates its crawling behaviour, Core Web Vitals thresholds shift, and your site evolves with new features. Build these checks into your deployment pipeline: run Lighthouse in CI, monitor field data weekly, and re-audit quarterly.
+
+If your Next.js site is underperforming in search despite strong content, the issue is almost always technical. The fixes above address 90% of what we

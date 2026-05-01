@@ -16,6 +16,12 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    // Fix: Next.js 16 Turbopack detects /Users/keshavpc/package-lock.json as
+    // workspace root, causing it to load env vars from the home directory
+    // instead of this project. Pinning root to __dirname resolves this.
+    root: __dirname,
+  },
   allowedDevOrigins: ['127.0.0.1'],
   poweredByHeader: false,
   reactStrictMode: true,

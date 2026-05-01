@@ -1,4 +1,4 @@
-cd aurtos-studio/**
+/**
  * POST /api/cron/auto-blog
  *
  * Runs daily (cron schedule defined in vercel.json).

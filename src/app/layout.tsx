@@ -3,7 +3,7 @@ import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { FloatingWhatsApp } from '@/components/widgets/FloatingWhatsApp';
+import LeadWidget from '@/components/widgets/LeadWidget';
 import { ScrollToTop } from '@/components/widgets/ScrollToTop';
 import { ExitIntentPopup } from '@/components/widgets/ExitIntentPopup';
 import { CookieConsent } from '@/components/widgets/CookieConsent';
@@ -128,7 +128,7 @@ export default function RootLayout({
         <Footer />
 
         {/* Widgets */}
-        <FloatingWhatsApp />
+        <LeadWidget />
         <ScrollToTop />
         <ExitIntentPopup />
         <CookieConsent />

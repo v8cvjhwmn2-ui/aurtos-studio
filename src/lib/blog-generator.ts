@@ -5,10 +5,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import type { BlogTopic } from '@/data/blog-topics';
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
-
 const SITE_URL = 'https://aurtostechnologies.in';
 
 /** Returns today's date as YYYY-MM-DD (UTC) */
@@ -97,6 +93,9 @@ Output the complete MDX file now.`;
 
 export async function generateBlogPost(topic: BlogTopic): Promise<string> {
   const date = today();
+
+  // Initialise lazily so env vars are always resolved at call-time (not module load)
+  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
   const message = await client.messages.create({
     model: 'claude-opus-4-5',
