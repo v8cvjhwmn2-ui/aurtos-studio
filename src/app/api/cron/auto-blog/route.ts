@@ -181,6 +181,19 @@ export async function GET(req: Request) {
 
     commitUrl = publishResult.commitUrl;
     console.log(`[auto-blog] committed to GitHub: ${commitUrl}`);
+
+    // 4c. Trigger Vercel Deploy Hook to publish the new commit
+    const deployHook = process.env.VERCEL_DEPLOY_HOOK_URL;
+    if (deployHook) {
+      try {
+        const r = await fetch(deployHook, { method: 'POST' });
+        console.log(`[auto-blog] deploy hook triggered: ${r.status}`);
+      } catch (e) {
+        console.warn('[auto-blog] deploy hook failed:', e);
+      }
+    } else {
+      console.warn('[auto-blog] VERCEL_DEPLOY_HOOK_URL not set — relying on Git auto-deploy');
+    }
   }
 
   // 5. Ping IndexNow with the new URL
