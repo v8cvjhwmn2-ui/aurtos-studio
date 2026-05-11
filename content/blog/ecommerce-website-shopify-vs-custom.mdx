@@ -1,0 +1,133 @@
+---
+title: "Shopify vs. Custom E-commerce for Indian D2C Brands"
+description: "Compare Shopify, WooCommerce, and custom e-commerce platforms for Indian D2C brands. Includes payment gateways, logistics, and recommendations."
+date: "2026-05-11"
+author: "Aurtos Studio"
+category: "Website Development"
+tags: ["shopify", "ecommerce", "d2c", "india"]
+keywords: ["Shopify India", "custom ecommerce website India", "D2C website India", "best ecommerce platform India"]
+cover: "/blog/ecommerce-website-shopify-vs-custom/cover.jpg"
+canonical: "https://aurtostechnologies.in/blog/ecommerce-website-shopify-vs-custom"
+draft: false
+faqs:
+  - question: "Is Shopify India good for small D2C brands starting out?"
+    answer: "Yes, Shopify India works well for small D2C brands with monthly revenue under ₹5 lakh. The Basic plan at ₹1,994/month includes hosting, security, and native Razorpay integration. You can launch within a week without hiring developers. However, transaction fees (2% on non-Shopify Payments) and limited customisation become constraints as you scale beyond ₹10-15 lakh monthly revenue."
+  - question: "What is the cost of a custom ecommerce website India for D2C brands?"
+    answer: "A custom ecommerce website in India typically costs between ₹3-8 lakh for development, plus ₹15,000-40,000 monthly for hosting and maintenance. This makes sense for brands doing ₹5 lakh+ monthly revenue where the performance gains and reduced transaction fees offset the investment within 12-18 months."
+  - question: "Which is the best ecommerce platform India for fashion D2C brands?"
+    answer: "For fashion D2C brands in India, the best platform depends on your scale. Under ₹3 lakh monthly revenue, Shopify offers quick setup and sufficient features. Between ₹3-10 lakh, WooCommerce provides better margins. Above ₹10 lakh, custom Next.js with headless CMS delivers the fastest mobile experience and lowest transaction costs, critical for fashion where 85% of traffic comes from mobile."
+  - question: "How do I build a D2C website India with international shipping?"
+    answer: "To build a D2C website in India with international shipping, you need multi-currency support, international payment gateways (Stripe or PayPal), and logistics integrations like DHL eCommerce or FedEx. Shopify Markets handles this natively. For custom builds, implement currency conversion APIs, integrate Stripe for 135+ currencies, and connect with aggregators like Shiprocket International or EasyEcom for unified shipping management."
+---
+
+India's D2C market crossed ₹60,000 crore in 2025, with projections hitting ₹1.5 lakh crore by 2028. Yet here's what most founders miss: 67% of D2C brands that fail cite "platform limitations" as a primary scaling blocker—not product-market fit or funding. A Bengaluru skincare brand we worked with last year was losing ₹2.3 lakh monthly in transaction fees and abandoned carts before switching platforms. Your e-commerce platform isn't a technical decision; it's a growth decision that compounds over years.
+
+## Indian D2C Boom: Why Your Website Platform Choice is a Growth Decision
+
+The Indian D2C landscape has fundamentally shifted. Five years ago, marketplace dependency made sense—Flipkart and Amazon drove discovery. Today, customer acquisition costs on marketplaces have increased 340% while margins compress. Direct websites now account for 35-40% of revenue for mature D2C brands like Mamaearth, boAt, and Sugar Cosmetics.
+
+Your platform choice affects three compounding factors: conversion rate, transaction costs, and operational efficiency. A 0.5% improvement in mobile checkout conversion translates to ₹6 lakh additional annual revenue for a brand doing ₹10 crore yearly. Transaction fee differences between platforms can mean ₹1.2-2.4 lakh saved annually at the same revenue level. Integration capabilities with Indian logistics and payment systems determine whether you need two people managing operations or one.
+
+The mistake most founders make is choosing based on current scale rather than 18-month projections. A platform that's perfect at ₹2 lakh monthly revenue becomes a bottleneck at ₹15 lakh. Migration costs—both financial and operational—often exceed ₹5-8 lakh when you factor in SEO impact, customer data transition, and team retraining. Choose for where you're heading, not where you are.
+
+## Shopify Pros and Cons for India: INR Pricing, Payment Gateways, Razorpay
+
+Shopify introduced INR pricing in 2022, eliminating currency conversion headaches. The Basic plan at ₹1,994/month, Standard at ₹7,447/month, and Advanced at ₹30,164/month make cost planning straightforward. For brands under ₹5 lakh monthly revenue, Shopify remains the fastest path to a functional store.
+
+The integration ecosystem is Shopify's genuine strength. Razorpay's native app takes under 10 minutes to activate, supporting UPI, cards, wallets, and EMI options that Indian customers expect. Shiprocket, Delhivery, and other logistics providers have one-click integrations. You can launch a complete D2C operation within a week without writing code.
+
+However, Shopify's limitations become apparent as you scale. The 2% transaction fee on external payment gateways adds up—at ₹50 lakh monthly GMV, that's ₹1 lakh going to Shopify on top of payment gateway fees. Theme customisation hits walls quickly; anything beyond template modifications requires a developer comfortable with Liquid (Shopify's templating language), and finding good Liquid developers in India is harder than finding React or PHP talent. Speed optimisation is constrained by Shopify's infrastructure—you can't implement aggressive caching strategies or serve from Indian CDN nodes outside their network.
+
+<Callout type="info">
+Shopify's transaction fee drops to 0.5% on Advanced plans and disappears entirely if you use Shopify Payments. However, Shopify Payments isn't fully available in India yet, making Razorpay or PayU integration necessary—and those fees remain.
+</Callout>
+
+## WooCommerce Pros and Cons: Flexibility vs. Maintenance Overhead
+
+WooCommerce powers 28% of all e-commerce sites globally and offers something Shopify can't: complete ownership. Your store runs on infrastructure you control, with no transaction fees beyond payment gateway charges. For brands doing ₹3-15 lakh monthly, WooCommerce often delivers better unit economics than Shopify.
+
+The plugin ecosystem covers nearly every Indian e-commerce requirement. Razorpay, PayU, and Cashfree have official plugins. Shiprocket and Delhivery offer WooCommerce extensions. GST invoice generation, pincode serviceability checks, and COD verification—all available as plugins, often free.
+
+The flip side is maintenance overhead. WooCommerce requires hosting management, security updates, plugin compatibility checks, and performance optimisation. A competent WooCommerce setup needs ₹2,000-5,000/month for hosting (we recommend Cloudways or DigitalOcean managed WordPress), plus 3-5 hours monthly for updates and monitoring. Plugin conflicts after updates cause roughly 15% of WooCommerce stores to experience downtime at least once yearly.
+
+Speed is WooCommerce's persistent challenge. WordPress wasn't built for e-commerce, and achieving sub-2-second load times requires aggressive optimisation: proper caching (WP Rocket or LiteSpeed), image CDN (Cloudflare or BunnyCDN), database optimisation, and minimal plugin usage. Most WooCommerce stores we audit load in 4-7 seconds—unacceptable when 53% of mobile users abandon sites taking over 3 seconds.
+
+## Custom Next.js + Headless: When It Makes Sense
+
+Custom headless e-commerce—typically Next.js frontend with Medusa, Saleor, or headless Shopify backend—becomes financially sensible when you're doing ₹5 lakh+ monthly revenue. Below this threshold, development costs (₹3-8 lakh) and ongoing maintenance (₹15,000-40,000/month) rarely justify the benefits.
+
+The performance argument is compelling. A properly built Next.js store loads in under 1.5 seconds on 4G connections, compared to 3-4 seconds for typical Shopify or WooCommerce stores. For a brand with 50,000 monthly visitors, this speed improvement typically increases conversion rates by 0.3-0.7%—translating to ₹1.5-4 lakh additional monthly revenue at 3% baseline conversion and ₹1,000 AOV.
+
+Custom builds eliminate transaction fees entirely (beyond payment gateway charges), provide complete design freedom, and allow integrations impossible on hosted platforms. A Mumbai jewellery brand we built for needed try-on AR features, video consultations, and custom EMI calculators tied to specific banks—none possible within Shopify's constraints.
+
+The investment case: at ₹15 lakh monthly GMV, Shopify's transaction fees (2% external gateway) cost ₹30,000 monthly. Add the Advanced plan cost (₹30,164), and you're at ₹60,000+ monthly. A custom build with ₹30,000 monthly maintenance and hosting costs half while delivering better performance. Payback period on ₹5 lakh development investment: 10-12 months.
+
+## Payment Gateway Comparison for India: Razorpay, PayU, Cashfree, Stripe
+
+Payment gateway choice affects conversion rates more than most founders realise. A gateway without UPI loses 35-40% of potential transactions in tier-2 and tier-3 cities. Missing EMI options reduces average order value on purchases above ₹3,000.
+
+**Razorpay** dominates Indian D2C for good reason: 2% + ₹3 transaction fees, extensive payment method support (UPI, cards, wallets, EMI, Pay Later), and the best checkout UX. Their dashboard and settlement speeds (T+2 standard, T+0 available) suit fast-moving D2C operations. Razorpay Magic Checkout—their one-click checkout feature—claims 40% faster checkout completion.
+
+**PayU** offers similar pricing with stronger enterprise support. Their PayU Money product serves smaller merchants, while PayU Biz handles higher volumes with negotiated rates. PayU's advantage is slightly better international card acceptance and longer market presence (better dispute resolution processes).
+
+**Cashfree** undercuts both on pricing (1.85% + ₹3 for most transactions) and offers faster payouts—instant settlement is available for 0.5% additional. Their Auto Collect feature simplifies B2B payments and subscription collections.
+
+**Stripe** entered India with 2% + ₹3 pricing but shines for international transactions. If you're selling globally, Stripe handles 135+ currencies natively, something Indian-first gateways struggle with. The developer experience is notably superior—cleaner APIs, better documentation, more predictable behaviour.
+
+<Callout type="tip">
+Integrate two payment gateways from day one. Use Razorpay as primary (best UPI experience) and Cashfree or PayU as fallback. Gateway downtime—even 15 minutes during peak hours—can cost ₹50,000+ in lost sales for active D2C brands.
+</Callout>
+
+## Logistics Integrations: Shiprocket, Delhivery, EasyEcom
+
+Logistics integrations determine operational efficiency and customer experience post-purchase. The wrong setup means manual order entry, delayed tracking updates, and return nightmares.
+
+**Shiprocket** is the default choice for most D2C brands under ₹25 lakh monthly GMV. Their aggregator model connects you to 17+ courier partners (Delhivery, BlueDart, Ecom Express, etc.) through one integration. Rate comparison, automated courier selection based on pincode and weight, and unified tracking make operations manageable with minimal staff. Pricing starts at ₹27/500g for tier-1 cities.
+
+**Delhivery Direct** makes sense at scale. Above ₹30-40 lakh monthly shipping volume, direct contracts offer 15-25% lower rates than aggregator pricing. Their API documentation is solid, and dedicated account management improves issue resolution. The tradeoff: single courier dependency means service disruptions hit harder.
+
+**EasyEcom** and **Unicommerce** sit above shipping—they're order management systems connecting your website, marketplaces, warehouses, and logistics partners. If you're selling on Amazon, Flipkart, and your own website simultaneously, these platforms prevent inventory mismatches and centralise operations. EasyEcom pricing starts around ₹15,000/month; Unicommerce is pricier but more enterprise-ready.
+
+For [website development](/services/website-development) projects, we build logistics integrations directly into the checkout and admin panel—real-time pincode serviceability, estimated delivery dates, and automated tracking notifications without third-party app dependencies.
+
+## Mobile Checkout Optimisation: Reduce Cart Abandonment
+
+Indian e-commerce is 78% mobile. Yet most D2C stores treat mobile checkout as a scaled-down desktop experience, ignoring the fundamental differences in how people shop on phones.
+
+Cart abandonment on mobile averages 85% in India, compared to 70% on desktop. The culprits: slow load times, too many form fields, login requirements, and payment friction. Each additional checkout step loses 10-15% of remaining customers.
+
+Practical fixes that work:
+
+**Single-page checkout**: Compress shipping, billing, and payment into one scrollable screen. The "step 1 of 4" pattern loses customers at every transition.
+
+**Phone-first address entry**: Auto-detect city and state from pincode (simple API call). Reduce address fields to just house number, street, and landmark. Indian addresses are messy; don't force people into rigid formats.
+
+**Guest checkout default**: Don't require account creation. Capture email for order confirmation, prompt account creation post-purchase with a saved-password offer.
+
+**UPI intent flow**: On Android, trigger the customer's UPI app directly instead of showing a QR code. Razorpay and PayU support this—reduces payment time from 45 seconds to under 15 seconds.
+
+**COD verification**: A simple ₹1 COD verification (refunded on delivery) reduces fake orders by 60-70%. Most platforms support this; activate it for AOV under ₹500 where COD rates are highest.
+
+## Multi-Currency for Indian Exporters Selling Globally
+
+Indian D2C brands increasingly sell internationally—handcrafted products, ethnic wear, jewellery, and Ayurvedic products have strong NRI and global demand. Your platform needs to handle this without operational complexity.
+
+Shopify Markets handles multi-currency natively, converting prices and accepting payments in local currencies while settling in INR. The 1.5% currency conversion fee is acceptable given the reduced friction for international customers. Duty and tax estimation features help with sticker shock on delivery.
+
+For custom builds, implement a currency layer with daily exchange rate updates (Open Exchange Rates API works well). Price rounding matters—₹1,499 converts to $17.83, but displaying $18 or $17.99 converts better than raw numbers. Store prices in base currency (INR), display in local currency, charge in local currency.
+
+Payment gateway selection differs for international: Stripe handles 135+ currencies but charges 3% + currency conversion for international cards (4.5% total effective). PayPal remains necessary for markets where card penetration is low but PayPal trust is high (Southeast Asia, parts of Europe).
+
+Shipping complexity increases substantially. Partner with DHL eCommerce or FedEx for reliable international delivery. Shiprocket International aggregates these but adds margin. Build landed cost calculators showing total price including duties—surprise fees on delivery cause returns and negative reviews.
+
+## Our Recommendation Framework by Brand Size and Stage
+
+Platform selection ultimately depends on where you are and where you're heading. Here's our honest framework based on working with 50+ D2C brands:
+
+**Pre-revenue to ₹3 lakh/month**: Start with Shopify Basic. The ₹1,994/month cost is justified by speed-to-market and reduced operational overhead. Use Razorpay, integrate Shiprocket, and focus entirely on product and marketing. Platform migration can wait.
+
+**₹3-10 lakh/month**: Evaluate WooCommerce if margins are tight or you need specific customisations Shopify can't handle. The ₹40,000-60,000 saved annually on transaction fees funds the hosting and maintenance overhead. If you're comfortable with Shopify's costs and constraints, staying put is fine—migration has real costs.
+
+**₹10-25 lakh/month**: This is the decision zone. If you're growing steadily and platform limitations frustrate you (speed, customisation, transaction fees), start planning a custom build. Budget ₹4-6 lakh for development, 3-4 months timeline, and parallel running during migration.
+
+**₹25 lakh+/month**: Custom headless e-commerce
