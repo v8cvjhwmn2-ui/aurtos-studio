@@ -34,7 +34,10 @@ export function getGoogleAuthClient(scopes: string[]): AuthClient | null {
   if (cachedClient && cachedScopesKey === scopesKey) return cachedClient;
 
   // ---- Mode 1: Keyless via Vercel OIDC + Workload Identity Federation ----
-  const audience = process.env.GCP_WORKLOAD_IDENTITY_AUDIENCE;
+  // Accept both env-var names for backwards compatibility.
+  const audience =
+    process.env.GCP_WORKLOAD_IDENTITY_AUDIENCE ||
+    process.env.GOOGLE_WORKLOAD_IDENTITY_AUDIENCE;
   const saEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
   const oidcToken = process.env.VERCEL_OIDC_TOKEN;
 

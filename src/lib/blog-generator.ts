@@ -42,7 +42,14 @@ MDX components you may use:
 <Callout type="info">text</Callout>
 <Callout type="tip">text</Callout>
 <Callout type="warn">text</Callout>
-<Callout type="success">text</Callout>`;
+<Callout type="success">text</Callout>
+
+CRITICAL MDX SYNTAX RULES — violating these will break the build:
+- NEVER write curly braces in plain text — MDX treats { and } as JSX expressions.
+  If you need to show a placeholder like {{1}} or {name}, wrap it in backticks: \`{{1}}\` or \`{name}\`.
+- NEVER write JSX-like tags such as <Component> in plain text. Wrap in backticks.
+- Code samples MUST go inside fenced code blocks (\`\`\`lang ... \`\`\`).
+- Only the <Callout> component from the list above is allowed as a JSX element.`;
 
 function buildUserPrompt(topic: BlogTopic, date: string): string {
   return `Write a complete MDX blog post for Aurtos Studio with the following spec:
