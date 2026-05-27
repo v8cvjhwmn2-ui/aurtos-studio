@@ -106,7 +106,10 @@ export async function generateBlogPost(topic: BlogTopic): Promise<string> {
 
   const message = await client.messages.create({
     model: 'claude-opus-4-5',
-    max_tokens: 4096,
+    // A 1,600–2,200 word post comfortably fits in ~6k tokens, but a Callout
+    // mid-flow at the limit truncates the file and breaks the MDX build.
+    // 8192 gives us comfortable headroom.
+    max_tokens: 8192,
     system: SYSTEM_PROMPT,
     messages: [
       {
@@ -126,6 +129,21 @@ export async function generateBlogPost(topic: BlogTopic): Promise<string> {
   // Ensure the output starts with frontmatter
   if (!raw.startsWith('---')) {
     throw new Error('Generated content does not start with MDX frontmatter. Retrying not implemented.');
+  }
+
+  // Refuse to publish if Claude was cut off mid-generation. This catches the
+  // "stop_reason: max_tokens" case where we'd otherwise commit a broken MDX
+  // file with an unclosed <Callout> tag.
+  if (message.stop_reason === 'max_tokens') {
+    throw new Error('Claude hit max_tokens — output truncated. Increase max_tokens or shorten the outline.');
+  }
+
+  // Sanity check: every opened MDX tag must close. Catches stray unclosed
+  // <Callout> regardless of stop_reason.
+  const openCallouts = (raw.match(/<Callout\b[^>]*>/g) || []).length;
+  const closeCallouts = (raw.match(/<\/Callout>/g) || []).length;
+  if (openCallouts !== closeCallouts) {
+    throw new Error(`Unbalanced <Callout> tags: ${openCallouts} open vs ${closeCallouts} close — refusing to publish.`);
   }
 
   return raw;

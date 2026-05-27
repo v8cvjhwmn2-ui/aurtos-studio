@@ -193,4 +193,14 @@ When an API is down, continuing to hammer it wastes resources and may get you ra
 Libraries like `opossum` (Node.js) or `pybreaker` (Python) implement this pattern. For most Indian businesses, circuit breakers become relevant once you are processing hundreds of requests per minute.
 
 <Callout type="warn">
+Never assume third-party APIs are reliable. Even providers like Razorpay and Shiprocket have occasional downtime. Always design for failure — every external call should have a timeout, a retry policy, and a clear fallback path. Log every failure with full context so you can debug without guessing.
+</Callout>
+
+## Conclusion
+
+API integrations are the connective tissue of a modern Indian business stack. Done well, they let small teams ship features that would otherwise need entire departments. Done poorly, they become silent failure points that cost revenue and customer trust.
+
+Start with payments and communications — these have the biggest ROI. Add logistics and tax APIs once order volume justifies it. Treat webhooks as first-class infrastructure with proper signature verification and idempotency. And always plan for failure with retries, circuit breakers, and observability.
+
+Need help wiring these integrations into your website or app? [Get in touch with our team](/contact) — we have shipped these patterns for dozens of Indian businesses.
 Never assume third-party APIs are reliable. Even
